@@ -47,6 +47,15 @@ interface TableProps<Data extends object> extends BasePagination {
    */
   itemsPerPage?: number;
   /**
+   * Define how many items at all
+   * @default data.length
+   */
+  totalRegisters?: number;
+  /**
+   * Function which called on pagination state changes
+   */
+  onPageChange?: (page: number) => void;
+  /**
    * Define sort icons
    */
   sortIcons?: {
@@ -61,6 +70,7 @@ export function Table<Data extends object>({
   colorScheme = "teal",
   itemsPerPage = 10,
   totalRegisters = data.length,
+  onPageChange = () => {},
   emptyData,
   sortIcons = { up: TriangleUpIcon, down: TriangleDownIcon },
 }: TableProps<Data>) {
@@ -88,6 +98,11 @@ export function Table<Data extends object>({
     [pageIndex, pageSize]
   );
 
+  const onPaginationChange = (pagination: PaginationState) => {
+    onPageChange(pagination.pageIndex);
+    setPagination(pagination);
+  };
+
   const table = useReactTable({
     columns,
     data: paginationState.pageItems,
@@ -95,7 +110,7 @@ export function Table<Data extends object>({
     pageCount: paginationState.totalPages,
     onSortingChange: setSorting,
     getSortedRowModel: getSortedRowModel(),
-    onPaginationChange: setPagination,
+    onPaginationChange: onPaginationChange,
     manualSorting: true,
     manualPagination: true,
     state: {
