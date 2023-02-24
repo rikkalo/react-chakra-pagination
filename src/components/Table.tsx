@@ -17,7 +17,6 @@ import {
   getCoreRowModel,
   SortingState,
   getSortedRowModel,
-  PaginationState,
 } from "@tanstack/react-table";
 import { TriangleDownIcon, TriangleUpIcon } from "@chakra-ui/icons";
 
@@ -66,28 +65,22 @@ export function Table<Data extends object>({
   emptyData,
   sortIcons = { up: TriangleUpIcon, down: TriangleDownIcon },
 }: TableProps<Data>) {
-  const [{ pageIndex, pageSize }, setPagination] =
-    React.useState<PaginationState>({
-      pageIndex: page - 1,
-      pageSize: itemsPerPage,
-    });
-
   const [sorting, setSorting] = React.useState<SortingState>([]);
 
   const paginationState = usePagination<Data>({
     totalRegisters,
-    page: pageIndex + 1,
+    page,
     items: data,
-    itemsPerPage: pageSize,
+    itemsPerPage,
     sorting,
   });
 
   const pagination = React.useMemo(
     () => ({
-      pageIndex,
-      pageSize,
+      pageIndex: page - 1,
+      pageSize: itemsPerPage,
     }),
-    [pageIndex, pageSize]
+    [page, itemsPerPage]
   );
 
   const table = useReactTable({
@@ -97,7 +90,6 @@ export function Table<Data extends object>({
     pageCount: paginationState.totalPages,
     onSortingChange: setSorting,
     getSortedRowModel: getSortedRowModel(),
-    onPaginationChange: setPagination,
     manualSorting: true,
     manualPagination: true,
     state: {
@@ -186,10 +178,7 @@ export function Table<Data extends object>({
       <Pagination
         {...paginationState}
         colorScheme={colorScheme}
-        onPageChange={(page) => {
-          table.setPageIndex(page - 1);
-	  onPageChange(page)
-        }}
+        onPageChange={onPageChange}
       />
     </Box>
   );

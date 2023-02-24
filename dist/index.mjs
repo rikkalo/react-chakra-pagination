@@ -206,24 +206,20 @@ function Table({
   emptyData,
   sortIcons = { up: TriangleUpIcon, down: TriangleDownIcon }
 }) {
-  const [{ pageIndex, pageSize }, setPagination] = React4.useState({
-    pageIndex: page - 1,
-    pageSize: itemsPerPage
-  });
   const [sorting, setSorting] = React4.useState([]);
   const paginationState = usePagination({
     totalRegisters,
-    page: pageIndex + 1,
+    page,
     items: data,
-    itemsPerPage: pageSize,
+    itemsPerPage,
     sorting
   });
   const pagination = React4.useMemo(
     () => ({
-      pageIndex,
-      pageSize
+      pageIndex: page - 1,
+      pageSize: itemsPerPage
     }),
-    [pageIndex, pageSize]
+    [page, itemsPerPage]
   );
   const table = useReactTable({
     columns,
@@ -232,7 +228,6 @@ function Table({
     pageCount: paginationState.totalPages,
     onSortingChange: setSorting,
     getSortedRowModel: getSortedRowModel(),
-    onPaginationChange: setPagination,
     manualSorting: true,
     manualPagination: true,
     state: {
@@ -287,10 +282,7 @@ function Table({
     {
       ...paginationState,
       colorScheme,
-      onPageChange: (page2) => {
-        table.setPageIndex(page2 - 1);
-        onPageChange(page2);
-      }
+      onPageChange
     }
   ));
 }
