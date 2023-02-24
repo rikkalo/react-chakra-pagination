@@ -89,11 +89,6 @@ export function Table<Data extends object>({
     [pageIndex, pageSize]
   );
 
-  const onPaginationChange = (pagination: any) => {
-    onPageChange(pagination.pageIndex);
-    setPagination(pagination);
-  };
-
   const table = useReactTable({
     columns,
     data: paginationState.pageItems,
@@ -101,7 +96,7 @@ export function Table<Data extends object>({
     pageCount: paginationState.totalPages,
     onSortingChange: setSorting,
     getSortedRowModel: getSortedRowModel(),
-    onPaginationChange: onPaginationChange,
+    onPaginationChange: setPagination,
     manualSorting: true,
     manualPagination: true,
     state: {
@@ -192,6 +187,7 @@ export function Table<Data extends object>({
         colorScheme={colorScheme}
         onPageChange={(page) => {
           table.setPageIndex(page - 1);
+	  onPageChange(page)
         }}
       />
     </Box>
