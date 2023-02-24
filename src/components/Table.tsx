@@ -58,7 +58,7 @@ interface TableProps<Data extends object> extends BasePagination {
 export function Table<Data extends object>({
   data,
   columns,
-  page = 0,
+  page = 1,
   colorScheme = "teal",
   itemsPerPage = 10,
   totalRegisters = data.length,
@@ -68,7 +68,7 @@ export function Table<Data extends object>({
 }: TableProps<Data>) {
   const [{ pageIndex, pageSize }, setPagination] =
     React.useState<PaginationState>({
-      pageIndex: page,
+      pageIndex: page - 1,
       pageSize: itemsPerPage,
     });
 

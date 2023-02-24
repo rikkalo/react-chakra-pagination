@@ -197,7 +197,7 @@ function Pagination({
 function Table({
   data,
   columns,
-  page = 0,
+  page = 1,
   colorScheme = "teal",
   itemsPerPage = 10,
   totalRegisters = data.length,
@@ -207,7 +207,7 @@ function Table({
   sortIcons = { up: TriangleUpIcon, down: TriangleDownIcon }
 }) {
   const [{ pageIndex, pageSize }, setPagination] = React4.useState({
-    pageIndex: page,
+    pageIndex: page - 1,
     pageSize: itemsPerPage
   });
   const [sorting, setSorting] = React4.useState([]);
