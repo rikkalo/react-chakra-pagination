@@ -218,6 +218,7 @@ function Pagination({
 function Table({
   data,
   columns,
+  page = 0,
   colorScheme = "teal",
   itemsPerPage = 10,
   totalRegisters = data.length,
@@ -227,7 +228,7 @@ function Table({
   sortIcons = { up: import_icons.TriangleUpIcon, down: import_icons.TriangleDownIcon }
 }) {
   const [{ pageIndex, pageSize }, setPagination] = React4.useState({
-    pageIndex: 0,
+    pageIndex: page,
     pageSize: itemsPerPage
   });
   const [sorting, setSorting] = React4.useState([]);
@@ -307,9 +308,9 @@ function Table({
     {
       ...paginationState,
       colorScheme,
-      onPageChange: (page) => {
-        table.setPageIndex(page - 1);
-        onPageChange(page);
+      onPageChange: (page2) => {
+        table.setPageIndex(page2 - 1);
+        onPageChange(page2);
       }
     }
   ));

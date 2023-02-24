@@ -69,7 +69,7 @@ interface TableProps<Data extends object> extends BasePagination {
         down?: any;
     };
 }
-declare function Table<Data extends object>({ data, columns, colorScheme, itemsPerPage, totalRegisters, onPageChange, emptyData, sortIcons, }: TableProps<Data>): JSX.Element;
+declare function Table<Data extends object>({ data, columns, page, colorScheme, itemsPerPage, totalRegisters, onPageChange, emptyData, sortIcons, }: TableProps<Data>): JSX.Element;
 
 type Token<CSSType, ThemeKey = unknown> = ThemeKey extends keyof ThemeTypings ? ResponsiveValue<CSSType | ThemeTypings[ThemeKey]> : ResponsiveValue<CSSType>;
 
