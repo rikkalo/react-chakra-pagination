@@ -221,6 +221,8 @@ function Table({
   colorScheme = "teal",
   itemsPerPage = 10,
   totalRegisters = data.length,
+  onPageChange = () => {
+  },
   emptyData,
   sortIcons = { up: import_icons.TriangleUpIcon, down: import_icons.TriangleDownIcon }
 }) {
@@ -243,6 +245,10 @@ function Table({
     }),
     [pageIndex, pageSize]
   );
+  const onPaginationChange = (pagination2) => {
+    onPageChange(pagination2.pageIndex);
+    setPagination(pagination2);
+  };
   const table = (0, import_react_table.useReactTable)({
     columns,
     data: paginationState.pageItems,
@@ -250,7 +256,7 @@ function Table({
     pageCount: paginationState.totalPages,
     onSortingChange: setSorting,
     getSortedRowModel: (0, import_react_table.getSortedRowModel)(),
-    onPaginationChange: setPagination,
+    onPaginationChange,
     manualSorting: true,
     manualPagination: true,
     state: {
