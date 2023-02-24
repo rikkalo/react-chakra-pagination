@@ -47,15 +47,6 @@ interface TableProps<Data extends object> extends BasePagination {
    */
   itemsPerPage?: number;
   /**
-   * Define how many items at all
-   * @default data.length
-   */
-  totalRegisters?: number;
-  /**
-   * Function which called on pagination state changes
-   */
-  onPageChange?: (page: number) => void;
-  /**
    * Define sort icons
    */
   sortIcons?: {
@@ -98,7 +89,7 @@ export function Table<Data extends object>({
     [pageIndex, pageSize]
   );
 
-  const onPaginationChange = (pagination: PaginationState) => {
+  const onPaginationChange = (pagination: any) => {
     onPageChange(pagination.pageIndex);
     setPagination(pagination);
   };
